@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Removes Claude attribution from any commit that touches ml/ (the ML work is authored by me alone).
+set -euo pipefail
+. "$(dirname "$0")/attribution.sh"
+
+msg_file="$1"
+git diff --cached --name-only | grep -qE "$ML_PATH_RE" || exit 0
+grep -qiE "$ATTRIBUTION_RE" "$msg_file" || exit 0
+
+grep -viE "$ATTRIBUTION_RE" "$msg_file" > "$msg_file.tmp" || true
+# drop trailing blank lines left behind by the removed trailer
+sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$msg_file.tmp" > "$msg_file"
+rm -f "$msg_file.tmp"
+echo "commit-msg: removed Claude attribution (commit touches ml/)" >&2

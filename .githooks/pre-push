@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Blocks pushing commits that touch ml/ and still carry Claude attribution
+# (catches --amend and --no-verify cases the commit-msg hook can miss).
+set -euo pipefail
+. "$(dirname "$0")/attribution.sh"
+
+zero=0000000000000000000000000000000000000000
+bad=0
+while read -r _ local_sha _ remote_sha; do
+  [ "$local_sha" = "$zero" ] && continue
+  if [ "$remote_sha" = "$zero" ]; then range="$local_sha --not --remotes"; else range="$remote_sha..$local_sha"; fi
+  for c in $(git rev-list $range); do
+    git diff-tree --no-commit-id --name-only -r --root "$c" | grep -qE "$ML_PATH_RE" || continue
+    if git log -1 --format=%B "$c" | grep -qiE "$ATTRIBUTION_RE"; then
+      echo "pre-push: $(git log -1 --format='%h %s' "$c") touches ml/ but has Claude attribution" >&2
+      bad=1
+    fi
+  done
+done
+[ $bad -eq 0 ] || { echo "Fix with: git rebase -i and reword those commits" >&2; exit 1; }

@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+docs/Notes.md
+*.db
+.env
+services/api/storage/
+ml/data/*
+!ml/data/README.md
+ml/experiments/runs/
+mlruns/
+wandb/
+*.pt
+*.onnx
+.ipynb_checkpoints/
+.pytest_cache/
