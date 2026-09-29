@@ -17,8 +17,17 @@ Starting ideas:
 - Attributes: colour (primary + secondary), pattern, sleeve length, fit, material, formality (1–5), season warmth (1–5)
 
 **Decisions:**
+- referred the Fashionpedia dataset, to get an idea of what kind of labels are available and categories are covered.
+- picked the important items what made sense to me (a user would want to pick), and organized them in to proper categories.
+- Decided to split the general category Top into tops and shirts.
+- and decided to have the general bottom into pants and skirts.
+- And have a separate category for dress - to cover all the single piece dresses
 
 **What I learned:**
+- I searched about the common terms used in fashion, got to know about the categories
+- There is also other datasets like ModaNet and DeepFashion2, but they are not as diverse on the categories and attributes like the Fashionpedia dataset
+- so went with referring to Fashionpedia set and to use it in the project
+- im understanding the attributes is going to be useful while making creating recommendations for style and outfits.
 
 ---
 

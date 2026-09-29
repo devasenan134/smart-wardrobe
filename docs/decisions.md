@@ -6,7 +6,7 @@ Every dataset, pretrained weight and major design choice I use goes here. I trac
 
 | Asset | Used for | License | Commercial OK? | Checked |
 |---|---|---|---|---|
-| _example_ Fashionpedia annotations | Phase 1 seg + attributes | CC BY 4.0 (annotations); images are Flickr, each with its own license | verify per image | |
+| Fashionpedia dataset | Phase 1 seg + attributes | CC BY 4.0 (annotations); images are Flickr, each with its own license | verify per image | |
 
 ## Design decisions
 

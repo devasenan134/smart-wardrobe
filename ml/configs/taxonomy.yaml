@@ -1,3 +1,37 @@
+version: 1
+categories:
+  shirt: [shirt, blouse]
+  top: [t-shirt, sweatshirt, hoodie]
+  skirt: [skirt]
+  pants: [trousers, tuxedo_pants, jeans, chinos, khakis, linen_pants, shorts, cargo_pants, joggers, track_pants, sweat_pants]
+  shoes: [shoe, sneakers, formal_shoes, loafers, canvas_shoe]
+  accessory: [belt, sock, glasses, hat, headband, head_wears, hair_accessory, tie, glove, watch, scarf]
+  dress: [dress, jumpsuit]
+  outerwear: [jacket, vest, sweater, cape, cardigan]
+  bag: [bag, wallet]
 
----
-Categories: 
+attributes:
+  sleeve_length:
+    values: [sleeveless, short, three_quarter, long]
+    applies_to: [top, shirt, outerwear, dress]
+  pattern:
+    values: [solid, striped, checked, floral, polka_dot, graphic, animal_print, camouflage, abstract, other]
+    applies_to: [shirt, top, skirt, pants, dress, outerwear, accessory, bag]
+  color_primary:
+    values: &colors [black, white, grey, beige, brown, red, pink, orange, yellow, green, blue, navy, purple, gold, silver, multicolor]
+    applies_to: [shirt, top, skirt, pants, shoes, accessory, dress, outerwear, bag]
+  color_secondary:  # optional: second most visible colour, if any
+    values: *colors
+    applies_to: [shirt, top, skirt, pants, shoes, accessory, dress, outerwear, bag]
+  material:
+    values: [cotton, denim, linen, wool, knit, silk, satin, polyester, leather, suede, fleece, canvas, other]
+    applies_to: [shirt, top, skirt, pants, shoes, accessory, dress, outerwear, bag]
+  fit:
+    values: [skinny, regular, loose, baggy, oversized]
+    applies_to: [pants]
+  formality:  # 1 = gym/lounge, 2 = casual, 3 = smart casual, 4 = business, 5 = formal/black tie
+    range: [1, 5]
+    applies_to: [shirt, top, skirt, pants, shoes, accessory, dress, outerwear, bag]
+  warmth:  # 1 = hot weather, 3 = mild/layering, 5 = winter
+    range: [1, 5]
+    applies_to: [shirt, top, skirt, pants, shoes, dress, outerwear]
