@@ -41,6 +41,8 @@ Starting ideas:
 | DeepFashion2 | consumer vs shop image pairs, useful for the photo vs screenshot gap | non-commercial; access by request form |
 | ModaNet | extra street photos with polygons | non-commercial |
 
+For now decided to not use these 2 sets, as they are non-commercial
+
 Questions my EDA has to answer:
 1. Class distribution after mapping. Which classes are rare, and which have no data at all?
 2. Objects per image, and mask area as a share of the image (small accessories behave differently).
@@ -49,7 +51,11 @@ Questions my EDA has to answer:
 5. How different are these images from what users will upload?
 
 **Findings:**
-
+- Some of our attributes like color, material, formality and warmth are not in fashionpedia
+- have to figure some workaround to fill this gap (as these are some imp. attributes for our app goal)
+- Fashionpedia has only a few material labels (jeans → denim, suede, leather types), not enough to train a material model.
+- Also the Sleeve length is labelled on separate sleeve objects, not on the garments itself.
+  
 ---
 
 ## 1.3 Golden test set

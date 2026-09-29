@@ -11,3 +11,5 @@ Every dataset, pretrained weight and major design choice I use goes here. I trac
 ## Design decisions
 
 - 2026-09-25 — I serve each ML model as an endpoint and use the LLM only for chat, not as an agent orchestrating everything. Reason: the core features have fixed inputs and outputs, and owning the models is the point of the project. Full reasoning in [ROADMAP.md](ROADMAP.md#why-i-own-the-models-build-vs-buy).
+
+- 2026-09-29 - For now decided to not use the ModaNet and DeepFashion2 datasets, as they are non-commercial

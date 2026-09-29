@@ -28,7 +28,7 @@ attributes:
     applies_to: [shirt, top, skirt, pants, shoes, accessory, dress, outerwear, bag]
   fit:
     values: [skinny, regular, loose, baggy, oversized]
-    applies_to: [pants]
+    applies_to: [pants, top, shirt, dress, outerwear]
   formality:  # 1 = gym/lounge, 2 = casual, 3 = smart casual, 4 = business, 5 = formal/black tie
     range: [1, 5]
     applies_to: [shirt, top, skirt, pants, shoes, accessory, dress, outerwear, bag]

@@ -1,0 +1,114 @@
+# Maps Fashionpedia labels INTO our taxonomy (taxonomy.yaml).
+# Keys are Fashionpedia names exactly as they appear in
+# instances_attributes_*2020.json. Match on names, not ids.
+# Anything not listed here is ignored.
+version: 1
+source: fashionpedia-2020
+
+# Fashionpedia category -> our category, or drop
+categories:
+  "shirt, blouse": shirt
+  "top, t-shirt, sweatshirt": top
+  sweater: outerwear
+  cardigan: outerwear
+  jacket: outerwear
+  vest: outerwear
+  coat: outerwear
+  cape: outerwear
+  pants: pants
+  shorts: pants
+  skirt: skirt
+  dress: dress
+  jumpsuit: dress
+  shoe: shoes
+  "bag, wallet": bag
+  glasses: accessory
+  hat: accessory
+  "headband, head covering, hair accessory": accessory
+  tie: accessory
+  glove: accessory
+  watch: accessory
+  belt: accessory
+  sock: accessory
+  scarf: accessory
+  "tights, stockings": accessory
+  "leg warmer": drop
+  umbrella: drop
+  # garment parts, closures and decorations are not garments
+  hood: drop
+  collar: drop
+  lapel: drop
+  epaulette: drop
+  sleeve: drop  # but used below to derive sleeve_length
+  pocket: drop
+  neckline: drop
+  buckle: drop
+  zipper: drop
+  applique: drop
+  bead: drop
+  bow: drop
+  flower: drop
+  fringe: drop
+  ribbon: drop
+  rivet: drop
+  ruffle: drop
+  sequin: drop
+  tassel: drop
+
+# Fashionpedia attribute (on the garment itself) -> {our attribute: value}
+attributes:
+  # pattern
+  "plain (pattern)": {pattern: solid}
+  stripe: {pattern: striped}
+  check: {pattern: checked}
+  "houndstooth (pattern)": {pattern: checked}
+  argyle: {pattern: checked}
+  floral: {pattern: floral}
+  plant: {pattern: floral}
+  dot: {pattern: polka_dot}
+  cartoon: {pattern: graphic}
+  "letters, numbers": {pattern: graphic}
+  leopard: {pattern: animal_print}
+  cheetah: {pattern: animal_print}
+  zebra: {pattern: animal_print}
+  giraffe: {pattern: animal_print}
+  "snakeskin (pattern)": {pattern: animal_print}
+  peacock: {pattern: animal_print}
+  camouflage: {pattern: camouflage}
+  abstract: {pattern: abstract}
+  geometric: {pattern: abstract}
+  paisley: {pattern: other}
+  "fair isle": {pattern: other}
+  chevron: {pattern: other}
+  "herringbone (pattern)": {pattern: other}
+  "toile de jouy": {pattern: other}
+
+  # fit (Fashionpedia labels fit on tops, jackets, dresses too, not only pants)
+  "tight (fit)": {fit: skinny}
+  "regular (fit)": {fit: regular}
+  "loose (fit)": {fit: loose}
+  baggy: {fit: baggy}
+  oversized: {fit: oversized}
+
+  # material - Fashionpedia has no fabric labels, only these few
+  jeans: {material: denim}  # "nickname" attribute, only on pants
+  suede: {material: suede}
+  shearling: {material: leather}
+  crocodile: {material: leather}
+  snakeskin: {material: leather}
+
+# sleeve_length is NOT labelled on the garment. Fashionpedia labels it on
+# separate "sleeve" objects, so each sleeve has to be matched to the garment
+# it sits on (e.g. by box overlap). A garment with no sleeve objects inside
+# it is most likely sleeveless.
+sleeve_length:
+  from_category: sleeve
+  values:
+    sleeveless: sleeveless
+    "short (length)": short
+    elbow-length: short
+    "three quarter (length)": three_quarter
+    wrist-length: long
+
+# Not in Fashionpedia at all - needs another source:
+#   color_primary, color_secondary, material (mostly), formality, warmth
