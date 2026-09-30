@@ -9,8 +9,8 @@ source: fashionpedia-2020
 categories:
   "shirt, blouse": shirt
   "top, t-shirt, sweatshirt": top
-  sweater: outerwear
-  cardigan: outerwear
+  sweater: top  # mid layer, see outfit_roles in taxonomy.yaml
+  cardigan: top
   jacket: outerwear
   vest: outerwear
   coat: outerwear
@@ -56,59 +56,375 @@ categories:
   tassel: drop
 
 # Fashionpedia attribute (on the garment itself) -> {our attribute: value}
+# Grouped by OUR attribute. Unused ones are in dropped_attributes below.
 attributes:
-  # pattern
+  # --- subtype ---  item type inside the category - grouped by our category
+  # top
+  "classic (t-shirt)": {subtype: t-shirt}
+  "polo (shirt)": {subtype: polo}
+  "ringer (t-shirt)": {subtype: t-shirt}
+  "raglan (t-shirt)": {subtype: t-shirt}
+  "crop (top)": {subtype: crop_top}
+  "camisole": {subtype: camisole}
+  "tank (top)": {subtype: tank_top}
+  "hoodie": {subtype: hoodie}
+  # skirt
+  "wrap (skirt)": {subtype: wrap_skirt}
+  "skater (skirt)": {subtype: skater_skirt}
+  "hobble (skirt)": {subtype: pencil_skirt}
+  "sheath (skirt)": {subtype: pencil_skirt}
+  "ball gown (skirt)": {subtype: full_skirt}
+  "gypsy (skirt)": {subtype: full_skirt}
+  "rah-rah (skirt)": {subtype: skater_skirt}
+  "prairie (skirt)": {subtype: full_skirt}
+  "accordion (skirt)": {subtype: pleated_skirt}
+  "sarong (skirt)": {subtype: wrap_skirt}
+  "dirndl (skirt)": {subtype: full_skirt}
+  # pants
+  "jeans": {subtype: jeans, material: denim}
+  "sweatpants": {subtype: sweat_pants}
+  "leggings": {subtype: leggings}
+  "cargo (pants)": {subtype: cargo_pants}
+  "culottes": {subtype: culottes}
+  "capri (pants)": {subtype: capri}
+  "track (pants)": {subtype: track_pants}
+  "short (shorts)": {subtype: shorts}
+  "bermuda (shorts)": {subtype: bermuda_shorts}
+  "cargo (shorts)": {subtype: cargo_shorts}
+  "roll-up (shorts)": {subtype: shorts}
+  "lounge (shorts)": {subtype: lounge_shorts}
+  # dress
+  "shirt (dress)": {subtype: shirt_dress}
+  "sundress": {subtype: sundress}
+  "gown": {subtype: gown}
+  "sweater (dress)": {subtype: sweater_dress}
+  # outerwear
+  "blazer": {subtype: blazer}
+  "puffer (jacket)": {subtype: puffer}
+  "biker (jacket)": {subtype: biker_jacket}
+  "trucker (jacket)": {subtype: denim_jacket}
+  "bomber (jacket)": {subtype: bomber_jacket}
+  "track (jacket)": {subtype: track_jacket}
+  "tuxedo (jacket)": {subtype: blazer}
+  "parka": {subtype: parka}
+  "trench (coat)": {subtype: trench_coat}
+  "puffer (coat)": {subtype: puffer}
+
+  # --- pattern ---
   "plain (pattern)": {pattern: solid}
-  stripe: {pattern: striped}
-  check: {pattern: checked}
+  "stripe": {pattern: striped}
+  "check": {pattern: checked}
   "houndstooth (pattern)": {pattern: checked}
-  argyle: {pattern: checked}
-  floral: {pattern: floral}
-  plant: {pattern: floral}
-  dot: {pattern: polka_dot}
-  cartoon: {pattern: graphic}
+  "argyle": {pattern: checked}
+  "floral": {pattern: floral}
+  "plant": {pattern: floral}
+  "dot": {pattern: polka_dot}
+  "cartoon": {pattern: graphic}
   "letters, numbers": {pattern: graphic}
-  leopard: {pattern: animal_print}
-  cheetah: {pattern: animal_print}
-  zebra: {pattern: animal_print}
-  giraffe: {pattern: animal_print}
+  "leopard": {pattern: animal_print}
+  "cheetah": {pattern: animal_print}
+  "zebra": {pattern: animal_print}
+  "giraffe": {pattern: animal_print}
   "snakeskin (pattern)": {pattern: animal_print}
-  peacock: {pattern: animal_print}
-  camouflage: {pattern: camouflage}
-  abstract: {pattern: abstract}
-  geometric: {pattern: abstract}
-  paisley: {pattern: other}
+  "peacock": {pattern: animal_print}
+  "camouflage": {pattern: camouflage}
+  "abstract": {pattern: abstract}
+  "geometric": {pattern: abstract}
+  "paisley": {pattern: other}
   "fair isle": {pattern: other}
-  chevron: {pattern: other}
+  "chevron": {pattern: other}
   "herringbone (pattern)": {pattern: other}
   "toile de jouy": {pattern: other}
 
-  # fit (Fashionpedia labels fit on tops, jackets, dresses too, not only pants)
+  # --- fit ---  Fashionpedia labels fit on tops, jackets, dresses too, not only pants
   "tight (fit)": {fit: skinny}
   "regular (fit)": {fit: regular}
   "loose (fit)": {fit: loose}
-  baggy: {fit: baggy}
-  oversized: {fit: oversized}
+  "baggy": {fit: baggy}
+  "oversized": {fit: oversized}
 
-  # material - Fashionpedia has no fabric labels, only these few
-  jeans: {material: denim}  # "nickname" attribute, only on pants
-  suede: {material: suede}
-  shearling: {material: leather}
-  crocodile: {material: leather}
-  snakeskin: {material: leather}
+  # --- material ---  Fashionpedia has no fabric labels, only these few (jeans -> denim is under subtype)
+  "suede": {material: suede}
+  "shearling": {material: leather}
+  "crocodile": {material: leather}
+  "snakeskin": {material: leather}
+
+  # --- length ---  garment length; read together with the category
+  "above-the-hip (length)": {length: above_hip}
+  "hip (length)": {length: hip}
+  "micro (length)": {length: mini}
+  "mini (length)": {length: mini}
+  "above-the-knee (length)": {length: mini}
+  "knee (length)": {length: knee}
+  "below the knee (length)": {length: knee}
+  "midi": {length: midi}
+  "maxi (length)": {length: maxi}
+  "floor (length)": {length: maxi}
+
+  # --- silhouette ---  only the shapes that matter; symmetrical/asymmetrical etc. are dropped
+  "circle": {silhouette: flare}
+  "flare": {silhouette: flare}
+  "fit and flare": {silhouette: fit_and_flare}
+  "trumpet": {silhouette: flare}
+  "mermaid": {silhouette: flare}
+  "bell": {silhouette: flare}
+  "bell bottom": {silhouette: wide_leg}
+  "bootcut": {silhouette: wide_leg}
+  "pencil": {silhouette: pencil}
+  "straight": {silhouette: straight}
+  "a-line": {silhouette: a_line}
+  "wide leg": {silhouette: wide_leg}
+
+  # --- waist_rise ---
+  "high waist": {waist_rise: high}
+  "normal waist": {waist_rise: mid}
+  "low waist": {waist_rise: low}
+
+# Fashionpedia attributes we don't use, grouped by Fashionpedia's supercategory.
+# Listed so it's clear every attribute was looked at. The loader ignores them.
+# Used neckline types are in the neckline section at the bottom.
+dropped_attributes:
+  nickname:
+    - "undershirt"
+    - "henley (shirt)"
+    - "rugby (shirt)"
+    - "sailor (shirt)"
+    - "halter (top)"
+    - "peasant (top)"
+    - "tube (top)"
+    - "tunic (top)"
+    - "smock (top)"
+    - "pea (jacket)"
+    - "anorak"
+    - "safari (jacket)"
+    - "mao (jacket)"
+    - "nehru (jacket)"
+    - "norfolk (jacket)"
+    - "classic military (jacket)"
+    - "windbreaker"
+    - "chanel (jacket)"
+    - "bolero"
+    - "varsity (jacket)"
+    - "crop (jacket)"
+    - "hip-huggers (pants)"
+    - "harem (pants)"
+    - "sailor (pants)"
+    - "jodhpur"
+    - "peg (pants)"
+    - "camo (pants)"
+    - "crop (pants)"
+    - "booty (shorts)"
+    - "trunks"
+    - "boardshorts"
+    - "skort"
+    - "tie-up (shorts)"
+    - "culotte (shorts)"
+    - "bloomers"
+    - "tutu (skirt)"
+    - "kilt"
+    - "cargo (skirt)"
+    - "flamenco (skirt)"
+    - "tulip (skirt)"
+    - "godet (skirt)"
+    - "blanket (coat)"
+    - "pea (coat)"
+    - "shearling (coat)"
+    - "teddy bear (coat)"
+    - "duster (coat)"
+    - "raincoat"
+    - "kimono"
+    - "robe"
+    - "dress (coat )"
+    - "duffle (coat)"
+    - "wrap (coat)"
+    - "military (coat)"
+    - "swing (coat)"
+    - "halter (dress)"
+    - "wrap (dress)"
+    - "chemise (dress)"
+    - "slip (dress)"
+    - "cheongsams"
+    - "jumper (dress)"
+    - "shift (dress)"
+    - "sheath (dress)"
+    - "kaftan"
+    - "bodycon (dress)"
+    - "nightgown"
+    - "tea (dress)"
+    - "blouson (dress)"
+    - "tunic (dress)"
+    - "skater (dress)"
+    - "asymmetric (collar)"
+    - "regular (collar)"
+    - "shirt (collar)"
+    - "polo (collar)"
+    - "chelsea (collar)"
+    - "banded (collar)"
+    - "mandarin (collar)"
+    - "peter pan (collar)"
+    - "bow (collar)"
+    - "stand-away (collar)"
+    - "jabot (collar)"
+    - "sailor (collar)"
+    - "oversized (collar)"
+    - "notched (lapel)"
+    - "peak (lapel)"
+    - "shawl (lapel)"
+    - "napoleon (lapel)"
+    - "oversized (lapel)"
+    - "set-in sleeve"
+    - "dropped-shoulder sleeve"
+    - "raglan (sleeve)"
+    - "cap (sleeve)"
+    - "tulip (sleeve)"
+    - "puff (sleeve)"
+    - "bell (sleeve)"
+    - "circular flounce (sleeve)"
+    - "poet (sleeve)"
+    - "dolman (sleeve), batwing (sleeve)"
+    - "bishop (sleeve)"
+    - "leg of mutton (sleeve)"
+    - "kimono (sleeve)"
+    - "cargo (pocket)"
+    - "patch (pocket)"
+    - "welt (pocket)"
+    - "kangaroo (pocket)"
+    - "seam (pocket)"
+    - "slash (pocket)"
+    - "curved (pocket)"
+    - "flap (pocket)"
+  silhouette:
+    - "asymmetrical"
+    - "symmetrical"
+    - "peplum"
+    - "balloon"
+    - "peg"
+    - "tent"
+    - "high low"
+    - "curved (fit)"
+  waistline:
+    - "empire waistline"
+    - "dropped waistline"
+    - "basque (wasitline)"
+    - "no waistline"
+  neckline type:
+    - "collarless"
+  opening type:
+    - "single breasted"
+    - "double breasted"
+    - "lace up"
+    - "wrapping"
+    - "zip-up"
+    - "fly (opening)"
+    - "chained (opening)"
+    - "buckled (opening)"
+    - "toggled (opening)"
+    - "no opening"
+  non-textile material type:
+    - "plastic"
+    - "rubber"
+    - "metal"
+    - "feather"
+    - "gem"
+    - "bone"
+    - "ivory"
+    - "fur"
+    - "wood"
+    - "no non-textile material"
+  textile finishing, manufacturing techniques:
+    - "burnout"
+    - "distressed"
+    - "washed"
+    - "embossed"
+    - "frayed"
+    - "printed"
+    - "ruched"
+    - "quilted"
+    - "pleat"
+    - "gathering"
+    - "smocking"
+    - "tiered"
+    - "cutout"
+    - "slit"
+    - "perforated"
+    - "lining"
+    - "applique(a)"
+    - "bead(a)"
+    - "rivet(a)"
+    - "sequin(a)"
+    - "no special manufacturing technique"
+
+# Some Fashionpedia categories already tell the subtype (e.g. shorts -> pants/shorts).
+# A subtype from a garment's nickname attribute wins over this
+# (jacket + "blazer" -> blazer, not jacket).
+# No default on purpose for "shirt, blouse", "top, t-shirt, sweatshirt" and
+# "pants": they mix several subtypes, so any single default would be wrong for
+# part of them. Those garments get a subtype only from a nickname; the rest stay
+# empty (unknown), and the subtype model skips them during training.
+category_subtypes:
+  sweater: sweater
+  cardigan: cardigan
+  jacket: jacket
+  vest: vest
+  coat: coat
+  cape: cape
+  shorts: shorts
+  jumpsuit: jumpsuit
+  dress: dress
+  skirt: skirt
+  shoe: shoe
+  "bag, wallet": bag
+  glasses: glasses
+  hat: hat
+  "headband, head covering, hair accessory": hair_accessory
+  tie: tie
+  glove: glove
+  watch: watch
+  belt: belt
+  sock: sock
+  scarf: scarf
+  "tights, stockings": tights
 
 # sleeve_length is NOT labelled on the garment. Fashionpedia labels it on
 # separate "sleeve" objects, so each sleeve has to be matched to the garment
 # it sits on (e.g. by box overlap). A garment with no sleeve objects inside
 # it is most likely sleeveless.
+# Fashionpedia attribute on "sleeve" objects -> our sleeve_length
 sleeve_length:
-  from_category: sleeve
-  values:
-    sleeveless: sleeveless
-    "short (length)": short
-    elbow-length: short
-    "three quarter (length)": three_quarter
-    wrist-length: long
+  sleeveless: sleeveless
+  "short (length)": short
+  elbow-length: short
+  "three quarter (length)": three_quarter
+  wrist-length: long
+
+# neckline works like sleeve_length: it is labelled on separate "neckline"
+# objects, which have to be matched to the garment they sit on.
+# Fashionpedia attribute on "neckline" objects -> our neckline
+neckline:
+  "round (neck)": round
+  "crew (neck)": round
+  "oval (neck)": round
+  "v-neck": v_neck
+  "plunging (neckline)": v_neck
+  "surplice (neck)": v_neck
+  "crossover (neck)": v_neck
+  "scoop (neck)": scoop
+  "u-neck": scoop
+  "boat (neck)": boat
+  "straight across (neck)": boat
+  "square (neckline)": square
+  "sweetheart (neckline)": sweetheart
+  "queen anne (neck)": sweetheart
+  "high (neck)": high
+  "turtle (neck)": high
+  "choker (neck)": high
+  "off-the-shoulder": off_shoulder
+  "one shoulder": one_shoulder
+  "halter (neck)": halter
+  "asymmetric (neckline)": other
+  "illusion (neck)": other
+  "keyhole (neck)": other
+  "cowl (neck)": other
 
 # Not in Fashionpedia at all - needs another source:
 #   color_primary, color_secondary, material (mostly), formality, warmth

@@ -23,6 +23,32 @@ Starting ideas:
 - and decided to have the general bottom into pants and skirts.
 - And have a separate category for dress - to cover all the single piece dresses
 
+    Taxonomy v1: design decisions
+
+    1. Principle: the taxonomy is based on what the app needs, not on any dataset. Datasets are mapped into it (ml/configs/fashionpedia_map.yaml), matched by label name, not id.
+
+    2. Three levels per garment
+        - Category (9 classes): what the detector predicts. Kept broad on purpose (shirt, top, skirt, pants, dress, outerwear, shoes, accessory, bag). Fewer classes means more examples each, and less confusion between similar items like blazer and jacket.
+        - Subtype: the specific item inside a category (jeans, hoodie, blazer, gown, pencil_skirt, watch). Predicted from the garment crop, not by the detector. It gets a default from the source category (shorts → pants/shorts) and a more specific value from Fashionpedia nicknames (jacket + blazer → blazer).
+        - Attributes: details about the item: pattern, fit, length, silhouette, waist_rise, sleeve_length, neckline, color, material, formality, warmth. Each attribute has a closed list of values and an applies_to list of categories (no sleeve length on shoes).
+
+    3. Key choices
+        - Merged items that look alike or that the data doesn't separate: jeans and shorts are pants subtypes, jumpsuit is a dress subtype, and small items (belt, watch, glasses, socks…) are accessory subtypes.
+        - Sweater, cardigan, hoodie and sweatshirt are all tops. outerwear only holds things worn over everything else (jackets, coats, blazers).
+        - Outfit roles (base_top, mid_top, bottom, one_piece, outer, shoes, accessory, bag) are derived by rule from category + subtype, so the recommender can layer items correctly. They're not predicted.
+        - Fashionpedia's fine-grained labels are collapsed into smaller value sets. 294 attributes → 103 mapped, and the other 161 are listed in dropped_attributes. Garment parts, closures and decorations are dropped as objects.
+        - Sleeve length and neckline come from part objects. Fashionpedia labels them on separate sleeve and neckline objects, which get matched to their garment by box overlap.
+
+    4. Known gaps
+        - No colour, formality or warmth labels, and almost no material labels. Colour will be computed from mask pixels. Material, formality and warmth need zero-shot models, rules or my own labels (still being researched).
+        - No shoe types (sneaker, boot, heel…). This matters a lot for outfits and needs another source.
+        - Photo domain: Fashionpedia is worn, street-style photos, but users will upload flat-lay, hanging and screenshot photos. The golden set has to measure this. 
+        - Coverage: no suits, swimwear, sleepwear or traditional wear. The data is skewed towards women's fashion.
+
+    5. Versioning: the taxonomy has version: 1. Stored wardrobe items should record the version they were labelled with, so later changes can be migrated.
+
+
+
 **What I learned:**
 - I searched about the common terms used in fashion, got to know about the categories
 - There is also other datasets like ModaNet and DeepFashion2, but they are not as diverse on the categories and attributes like the Fashionpedia dataset

@@ -1,16 +1,19 @@
 version: 1
 categories:
   shirt: [shirt, blouse]
-  top: [t-shirt, sweatshirt, hoodie]
-  skirt: [skirt]
-  pants: [trousers, tuxedo_pants, jeans, chinos, khakis, linen_pants, shorts, cargo_pants, joggers, track_pants, sweat_pants]
+  top: [t-shirt, tank_top, camisole, crop_top, polo, sweatshirt, hoodie, sweater, cardigan]
+  skirt: [skirt, pencil_skirt, skater_skirt, full_skirt, pleated_skirt, wrap_skirt]
+  pants: [trousers, tuxedo_pants, jeans, chinos, khakis, linen_pants, shorts, cargo_pants, joggers, track_pants, sweat_pants, leggings, culottes, capri, bermuda_shorts, cargo_shorts, lounge_shorts]
   shoes: [shoe, sneakers, formal_shoes, loafers, canvas_shoe]
-  accessory: [belt, sock, glasses, hat, headband, head_wears, hair_accessory, tie, glove, watch, scarf]
-  dress: [dress, jumpsuit]
-  outerwear: [jacket, vest, sweater, cape, cardigan]
+  accessory: [belt, sock, tights, glasses, hat, hair_accessory, tie, glove, watch, scarf]  # hair_accessory = headband, head covering, hair accessory (one Fashionpedia label)
+  dress: [dress, jumpsuit, gown, shirt_dress, sweater_dress, sundress]
+  outerwear: [jacket, vest, cape, coat, blazer, biker_jacket, bomber_jacket, denim_jacket, puffer, trench_coat, parka, track_jacket]
   bag: [bag, wallet]
-
+  
 attributes:
+  subtype:  # the item type inside a category; allowed values are that category's list above
+    values_from: categories
+    applies_to: [shirt, top, skirt, pants, shoes, accessory, dress, outerwear, bag]
   sleeve_length:
     values: [sleeveless, short, three_quarter, long]
     applies_to: [top, shirt, outerwear, dress]
@@ -26,6 +29,18 @@ attributes:
   material:
     values: [cotton, denim, linen, wool, knit, silk, satin, polyester, leather, suede, fleece, canvas, other]
     applies_to: [shirt, top, skirt, pants, shoes, accessory, dress, outerwear, bag]
+  length:  # read together with the category: maxi pants = full length, above_hip top = normal length
+    values: [above_hip, hip, mini, knee, midi, maxi]
+    applies_to: [top, shirt, outerwear, dress, skirt, pants]
+  silhouette:
+    values: [straight, a_line, pencil, fit_and_flare, flare, wide_leg]
+    applies_to: [dress, skirt, pants]
+  waist_rise:
+    values: [high, mid, low]
+    applies_to: [pants, skirt]
+  neckline:
+    values: [round, v_neck, scoop, boat, square, sweetheart, high, off_shoulder, one_shoulder, halter, other]
+    applies_to: [top, shirt, dress]
   fit:
     values: [skinny, regular, loose, baggy, oversized]
     applies_to: [pants, top, shirt, dress, outerwear]
@@ -35,3 +50,25 @@ attributes:
   warmth:  # 1 = hot weather, 3 = mild/layering, 5 = winter
     range: [1, 5]
     applies_to: [shirt, top, skirt, pants, shoes, dress, outerwear]
+
+# How items combine into an outfit. Not predicted by a model: derived by rule
+# from category + subtype, so the recommender knows what can be worn together.
+#   outfit = (base_top + bottom) or one_piece, + shoes
+#   optional: one mid_top over the base_top, one outer, accessories, bag
+outfit_roles:
+  values: [base_top, mid_top, bottom, one_piece, outer, shoes, accessory, bag]
+  by_category:  # default role for each category
+    shirt: base_top
+    top: base_top
+    skirt: bottom
+    pants: bottom
+    dress: one_piece
+    outerwear: outer
+    shoes: shoes
+    accessory: accessory
+    bag: bag
+  by_subtype:  # overrides the category default
+    sweatshirt: mid_top
+    hoodie: mid_top
+    sweater: mid_top
+    cardigan: mid_top
