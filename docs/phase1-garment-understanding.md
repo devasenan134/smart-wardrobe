@@ -48,7 +48,6 @@ Starting ideas:
     5. Versioning: the taxonomy has version: 1. Stored wardrobe items should record the version they were labelled with, so later changes can be migrated.
 
 
-
 **What I learned:**
 - I searched about the common terms used in fashion, got to know about the categories
 - There is also other datasets like ModaNet and DeepFashion2, but they are not as diverse on the categories and attributes like the Fashionpedia dataset
@@ -69,19 +68,50 @@ Starting ideas:
 
 For now decided to not use these 2 sets, as they are non-commercial
 
-Questions my EDA has to answer:
-1. Class distribution after mapping. Which classes are rare, and which have no data at all?
-2. Objects per image, and mask area as a share of the image (small accessories behave differently).
-3. Image resolution and aspect ratios, to choose the training image size.
-4. Attribute coverage: how many instances actually have each attribute labelled?
-5. How different are these images from what users will upload?
+**Findings:** (Fashionpedia train split, after mapping to my taxonomy. Notebook: `ml/notebooks/fashionpedia_eda.ipynb`)
 
-**Findings:**
-- Some of our attributes like color, material, formality and warmth are not in fashionpedia
-- have to figure some workaround to fill this gap (as these are some imp. attributes for our app goal)
-- Fashionpedia has only a few material labels (jeans → denim, suede, leather types), not enough to train a material model.
-- Also the Sleeve length is labelled on separate sleeve objects, not on the garments itself.
-  
+After mapping, 333k Fashionpedia objects become 163k garments in 45.6k images. The rest were garment parts and decorations I dropped.
+
+**1. Class distribution**
+- All 9 of my categories have plenty of data. The smallest is skirt with 5k garments, the largest is shoes with 46k.
+- But it's imbalanced: shoes are 28.5% of all garments, shirts 3.8% and skirts 3.1% (about 9:1). → I should try class rebalancing in 1.5, otherwise the model will be best at shoes and weakest at shirts and skirts.
+- At subtype level, some of my subtypes have no data at all: shirt vs blouse, trousers, chinos, joggers, sweatshirt, and every shoe type (sneakers, formal shoes…). → A model trained on Fashionpedia can never predict these. They have to come from the golden set, a zero-shot model or user corrections.
+- Some subtypes are very rare: cargo shorts 25, track pants 33, wrap skirt 53, cargo pants 66. → Probably too few to learn well.
+
+**2. Objects per image and object size**
+- Images have 3–4 garments on average (median 3, max 20), because these are full outfits.
+- Shoes and accessories are tiny: their median mask covers only 0.3% of the image, and about 70% of shoes and 60% of accessories cover less than 0.5%. Dresses are the biggest (median 12.5%).
+- → Small objects will be the hardest part for the detector. Shoes and accessories will probably have the lowest mAP.
+
+**3. Image resolution**
+- Every image has its longest side at 1024 px. Most are 682×1024, and 80% are portrait.
+- A shoe's box is about 56×86 px at full size. At YOLO's default 640, that shrinks to about 35×54 px.
+- → I should compare imgsz 640 vs 1024 in 1.5 because of the small objects. 1024 is slower and needs more GPU memory (8 GB), so batch size will have to go down.
+
+**4. Attribute coverage** (share of garments with a label, only counting the categories each attribute applies to)
+
+| attribute | coverage | notes |
+|---|---|---|
+| subtype | 89% | inflated: shoes, dresses and accessories get it from the category default. Shirts 0%, pants 58%, tops 68% |
+| length | 85% | |
+| waist_rise | 66% | |
+| neckline | 65% | from neckline objects |
+| pattern | 63% | 87% of labels are `solid`. Camouflage only 141 |
+| fit | 61% | baggy only 72, oversized 659 |
+| silhouette | 59% | wide_leg only 869 |
+| sleeve_length | 53% | from sleeve objects. `sleeveless` only 167 |
+| material | 2% | only denim (from jeans), leather and suede |
+| colour, formality, warmth | 0% | not in Fashionpedia at all |
+
+- → Pattern is very imbalanced (mostly solid), so I need to look at per-value F1, not just accuracy, in 1.6.
+- → Colour, material, formality and warmth have no usable labels. Colour I can compute from the mask pixels. The others need zero-shot (FashionCLIP), rules or my own labels.
+- → Sleeve matching by box overlap misses layered outfits: 40% of shirts and 46% of tops get no sleeves matched, often because the jacket's box grabs the sleeves. Sleeve length numbers are an undercount. Using masks instead of boxes could fix this later.
+
+**5. Difference from what users will upload**
+- Fashionpedia photos are professional or street-style: people wearing full outfits, good lighting, clean backgrounds.
+- My users will upload single items lying on a bed, hanging on a hanger, mirror selfies in a normal room, and shop screenshots.
+- → Big domain gap. The golden set has to be mostly these user-style photos, so I can measure how badly the model drops on them. Later I may need flat-lay or hanging training data too (e.g. other images from the Grigorev clothing dataset, never the ones in my golden set), or augmentations.
+
 ---
 
 ## 1.3 Golden test set
@@ -106,7 +136,7 @@ Questions my EDA has to answer:
 
 **Plan:** YOLO11-seg or YOLOv8-seg (s or m) on Fashionpedia mapped to my taxonomy, imgsz 640, batch 8–16 with AMP on the 8 GB GPU. Track every run (config, data version, metrics, sample predictions). Report mask mAP50-95 overall and per class, on Fashionpedia val and on the golden set.
 
-Experiments to try: image size, class rebalancing, adding DeepFashion2 shop images, augmentation for phone-photo conditions.
+Experiments to try: image size, class rebalancing, adding DeepFashion2 shop images, augmentation for phone-photo conditions, and class granularity: our 9 coarse classes vs ~24 Fashionpedia-level classes (jacket, coat, sweater, shorts…) grouped back into our 9 after detection. Tests whether finer detection beats predicting the fine type as `subtype` from the crop.
 
 **Experiments:**
 

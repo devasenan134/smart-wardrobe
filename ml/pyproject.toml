@@ -1,8 +1,9 @@
 [project]
 name = "ml"
 version = "0.1.0"
-description = "Add your description here"
+description = "Smart Wardrobe ML: data, training, evaluation and serving"
 readme = "README.md"
+license = "Apache-2.0"
 requires-python = ">=3.12"
 dependencies = [
     "jupyterlab>=4.6.4",
