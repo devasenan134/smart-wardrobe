@@ -13,3 +13,5 @@ Every dataset, pretrained weight and major design choice I use goes here. I trac
 - 2026-09-25 — I serve each ML model as an endpoint and use the LLM only for chat, not as an agent orchestrating everything. Reason: the core features have fixed inputs and outputs, and owning the models is the point of the project. Full reasoning in [ROADMAP.md](ROADMAP.md#why-i-own-the-models-build-vs-buy).
 
 - 2026-09-29 - For now decided to not use the ModaNet and DeepFashion2 datasets, as they are non-commercial
+
+- 2026-09-30 - Relicensed the repository from all-rights-reserved to Apache 2.0 and made it public to invite contributors. Apache 2.0 was picked over MIT for its explicit patent grant and contribution terms. Datasets and weights keep their own licenses (table above).

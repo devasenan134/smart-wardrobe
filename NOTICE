@@ -1,0 +1,8 @@
+Smart Wardrobe
+Copyright 2026 Devasenan Murugan and contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party datasets, pretrained weights and libraries used by this project
+are not covered by this license and remain under their own terms. They are
+listed in docs/decisions.md.
